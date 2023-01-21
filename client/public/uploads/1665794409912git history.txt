@@ -1,0 +1,32 @@
+1. create the repository that has got the same name of current project
+	git init --bare testProject.git
+2. create the repository on your github account has the same name of current project
+	testProject.git
+3. copy all history(the most much commits among pervious project commits using sourcetree - extract developer's mail)
+	
+git filter-branch --env-filter '
+OLD_EMAIL="dries@vints.io"
+CORRECT_NAME="RistoZoric"
+CORRECT_EMAIL="ronal10102@outlook.com"
+if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]
+then
+    export GIT_COMMITTER_NAME="$CORRECT_NAME"
+    export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+fi
+if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]
+then
+    export GIT_AUTHOR_NAME="$CORRECT_NAME"
+    export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+fi
+' --tag-name-filter cat -- --branches --tags
+
+4. copy filted commits into new created repo
+	git push --mirror testProject.git
+5.modify the config file from .git directory
+	url = https://github.com/Zanhuesu/testProject.git
+6.push all history into your account.
+	git push -u origin master
+
+
+---the end---
+
